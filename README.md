@@ -6,39 +6,49 @@ Welcome to my **Podcast Summarizer** repository! I'm an avid podcast listener, a
 
 Ever listened to a podcast, got inspired by the insights shared, but then realized you can't remember anything afterward? I’ve found myself constantly replaying parts of the episode to take notes. That’s where this personal project comes in! It's designed to help you recall the key points from any podcast without having to replay the entire episode.
 
-This program utilizes **Google's Gemini AI**, leveraging **prompt engineering** to structure the summary in an optimal format.  
-I chose **Gemini** due to its **large context window**, which is particularly useful for summarizing long-form content, as most podcasts run for at least an hour.
+This program utilizes the following technologies:
+
+* **Google's Gemini AI**: Chosen for its **large context window**, ideal for summarizing long-form content like hour-long podcasts.
+    * [Gemini AI](https://deepmind.google/technologies/gemini/)
+* **Prompt Engineering**: To structure the summary in an optimal, easily digestible format.
+* **Whisper OpenAI**: A speech recognition model by OpenAI, used locally to convert audio to transcript.
+    * [Whisper OpenAI](https://github.com/openai/whisper)
+    * Note: While Whisper offers variations from tiny to turbo, this project currently uses "tiny" due to resource constraints. Testing other models requires a GPU, which is not available in my current environment (CPU with 8GB RAM).
+* **youtube-transcript-api**: To obtain transcripts directly from YouTube.
+* **yt-dlp**: To download audio from YouTube.
+* **ffmpeg**: Required for Whisper OpenAI to convert audio to text.
 
 ---
 
 ## Environment
-This project is built using **WSL (Windows Subsystem for Linux)**, so ensure you have it set up properly before running the script.
+
+This project is developed and tested within **WSL (Windows Subsystem for Linux)**. Ensure your WSL environment is properly configured before running the script.
 
 ---
 
 ## Installation
 
-First, install the required dependencies:
+1.  **Install Dependencies:**
 
-```bash
-pip install youtube-transcript-api yt-dlp openai-whisper google-genai
-sudo apt install ffmpeg
-```
+    ```bash
+    pip install youtube-transcript-api yt-dlp openai-whisper google-genai
+    sudo apt install ffmpeg
+    ```
 
-### API Key Setup
+2.  **API Key Setup:**
 
-To use **Gemini AI**, obtain your API key from [here](https://ai.google.dev/gemini-api/docs/api-key).  
-Before running the script, set your API key using:
+    * Obtain your Gemini AI API key from [here](https://ai.google.dev/gemini-api/docs/api-key).
+    * Set the API key as an environment variable:
 
-```bash
-export GEMINI_API_KEY="your_actual_api_key"
-```
+        ```bash
+        export GEMINI_API_KEY="your_actual_api_key"
+        ```
 
 ---
 
 ## Running the Script
 
-Once everything is set up, you can run the summarizer with the following command:
+Execute the summarizer with the following command:
 
 ```bash
 python3 podcast_summarizer.py [youtube_link]
@@ -60,7 +70,7 @@ python3 podcast_summarizer.py https://www.youtube.com/watch?v=ffgpqk5hZBE
 3. **Audio Conversion**: The `.mp3` audio file is converted to **16kHz mono** for optimal transcription using **FFmpeg**.
 4. **Transcription**: The processed audio is transcribed locally using **Whisper Tiny**.
 5. **Summarization**: The transcript is then processed by **Gemini 2.0 Flash**, which extracts key topics and insights.
-6. **File Output**: The **transcript** and **summary** are saved as `transcript.txt` and `summary.txt`, respectively.
+6. **File Output**: The **summary** is saved as `summary.txt`.
 
 ---
 
